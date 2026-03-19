@@ -1,4 +1,4 @@
-name: CD - Déploiement GitHub Pages
+name: CD - Déploiement GitHub Pages et Runner
 
 on:
   push:
@@ -6,11 +6,10 @@ on:
       - PRO
 
 jobs:
-  deploy:
+  deploy-pages:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-
     steps:
       - name: Récupération du code
         uses: actions/checkout@v3
@@ -21,3 +20,13 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./
           publish_branch: gh-pages
+
+  deploy-runner:
+    runs-on: self-hosted
+    steps:
+      - name: Récupération du code
+        uses: actions/checkout@v3
+
+      - name: Déploiement sur Nginx
+        run: |
+          sudo cp index.html /var/www/html/index.html
