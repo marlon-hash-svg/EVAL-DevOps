@@ -1,0 +1,19 @@
+name: CI - Verification HTML
+
+on:
+  push:
+    branches:
+      - VERIF
+
+jobs:
+  verif-html:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupération du code
+        uses: actions/checkout@v3
+
+      - name: Installation de htmlhint
+        run: npm install -g htmlhint
+
+      - name: Vérification HTML
+        run: htmlhint index.html
